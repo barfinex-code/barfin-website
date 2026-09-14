@@ -6,13 +6,11 @@ if [[ "${EUID}" -ne 0 ]]; then
 fi
 
 EXPECTED_IP="45.82.14.210"
-domains=(-d barfin.org)
+domains=(-d barfin.org -d www.barfin.org)
 for host in barfin.org www.barfin.org; do
   resolved="$(getent ahostsv4 "$host" | awk 'NR == 1 { print $1 }')"
   if [[ "$resolved" != "$EXPECTED_IP" ]]; then
     echo "Warning: the server resolver still caches ${resolved:-nothing} for $host" >&2
-  elif [[ "$host" == "www.barfin.org" ]]; then
-    domains+=(-d www.barfin.org)
   fi
 done
 
@@ -35,7 +33,5 @@ certbot "$installer" \
   "${domains[@]}"
 
 curl -fsS --max-time 20 https://barfin.org/ >/dev/null
-if [[ " ${domains[*]} " == *" www.barfin.org "* ]]; then
-  curl -fsS --max-time 20 https://www.barfin.org/ >/dev/null
-fi
+curl -fsS --max-time 20 https://www.barfin.org/ >/dev/null
 echo "TLS enabled and verified"
