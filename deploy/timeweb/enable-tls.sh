@@ -33,6 +33,6 @@ certbot "$installer" \
   --email info@barfin.org \
   "${domains[@]}"
 
-curl -fsS --max-time 20 https://barfin.org/ >/dev/null
-curl -fsS --max-time 20 https://www.barfin.org/ >/dev/null
+curl -fsS --max-time 20 --resolve "barfin.org:443:$EXPECTED_IP" https://barfin.org/ >/dev/null
+curl -fsS --max-time 20 --resolve "www.barfin.org:443:$EXPECTED_IP" https://www.barfin.org/ >/dev/null
 echo "TLS enabled and verified"
