@@ -28,6 +28,7 @@ certbot "$installer" \
   --non-interactive \
   --agree-tos \
   --redirect \
+  --expand \
   --keep-until-expiring \
   --email info@barfin.org \
   "${domains[@]}"
