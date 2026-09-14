@@ -63,9 +63,9 @@ install -m 0644 "$RELEASE/deploy/timeweb/barfin-website.service" "/etc/systemd/s
 PROXY_SERVICE=""
 if command -v nginx >/dev/null 2>&1; then
   PROXY_SERVICE="nginx"
-  install -d -m 0755 /etc/nginx/sites-available /etc/nginx/sites-enabled
-  install -m 0644 "$RELEASE/deploy/timeweb/nginx-barfin.org.conf" "/etc/nginx/sites-available/barfin.org.conf"
-  ln -sfn /etc/nginx/sites-available/barfin.org.conf /etc/nginx/sites-enabled/barfin.org.conf
+  install -d -m 0755 /etc/nginx/conf.d
+  rm -f /etc/nginx/sites-enabled/barfin.org.conf
+  install -m 0644 "$RELEASE/deploy/timeweb/nginx-barfin.org.conf" "/etc/nginx/conf.d/barfin.org.conf"
   nginx -t
 elif command -v apache2ctl >/dev/null 2>&1; then
   PROXY_SERVICE="apache2"
