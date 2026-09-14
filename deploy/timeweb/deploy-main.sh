@@ -80,6 +80,8 @@ fi
 
 rollback() {
   echo "Deployment health check failed; rolling back" >&2
+  systemctl --no-pager --full status "$SERVICE" || true
+  journalctl --no-pager -u "$SERVICE" -n 80 || true
   if [[ -n "$PREVIOUS" && -d "$PREVIOUS" ]]; then
     ln -sfn "$PREVIOUS" "$CURRENT"
     systemctl restart "$SERVICE" || true
