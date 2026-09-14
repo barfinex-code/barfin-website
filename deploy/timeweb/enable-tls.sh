@@ -15,7 +15,16 @@ for host in barfin.org www.barfin.org; do
 done
 
 command -v certbot >/dev/null
-certbot --apache \
+if command -v nginx >/dev/null 2>&1; then
+  installer="--nginx"
+elif command -v apache2ctl >/dev/null 2>&1; then
+  installer="--apache"
+else
+  echo "No supported reverse proxy found" >&2
+  exit 1
+fi
+
+certbot "$installer" \
   --non-interactive \
   --agree-tos \
   --redirect \

@@ -59,10 +59,24 @@ chown -R root:root "$RELEASE"
 chmod -R o-w "$RELEASE"
 
 install -m 0644 "$RELEASE/deploy/timeweb/barfin-website.service" "/etc/systemd/system/$SERVICE"
-install -m 0644 "$RELEASE/deploy/timeweb/apache-barfin.org.conf" "/etc/apache2/sites-available/barfin.org.conf"
-a2enmod proxy proxy_http headers rewrite ssl >/dev/null
-a2ensite barfin.org.conf >/dev/null
-apache2ctl configtest
+
+PROXY_SERVICE=""
+if command -v nginx >/dev/null 2>&1; then
+  PROXY_SERVICE="nginx"
+  install -d -m 0755 /etc/nginx/sites-available /etc/nginx/sites-enabled
+  install -m 0644 "$RELEASE/deploy/timeweb/nginx-barfin.org.conf" "/etc/nginx/sites-available/barfin.org.conf"
+  ln -sfn /etc/nginx/sites-available/barfin.org.conf /etc/nginx/sites-enabled/barfin.org.conf
+  nginx -t
+elif command -v apache2ctl >/dev/null 2>&1; then
+  PROXY_SERVICE="apache2"
+  install -m 0644 "$RELEASE/deploy/timeweb/apache-barfin.org.conf" "/etc/apache2/sites-available/barfin.org.conf"
+  a2enmod proxy proxy_http headers rewrite ssl >/dev/null
+  a2ensite barfin.org.conf >/dev/null
+  apache2ctl configtest
+else
+  echo "No supported reverse proxy found" >&2
+  exit 1
+fi
 
 rollback() {
   echo "Deployment health check failed; rolling back" >&2
@@ -93,7 +107,7 @@ if [[ "$healthy" -ne 1 ]]; then
   exit 1
 fi
 
-systemctl reload apache2
+systemctl reload "$PROXY_SERVICE"
 curl -fsS --max-time 10 -H 'Host: barfin.org' http://127.0.0.1/ >/dev/null
 rm -f "$ARCHIVE"
 
