@@ -1,0 +1,35 @@
+[Unit]
+Description=Barfin Network Limited corporate website
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=barfin-web
+Group=barfin-web
+WorkingDirectory=/srv/barfin-website/current
+ExecStart=/usr/local/bin/node node_modules/vinext/dist/cli.js start --hostname 127.0.0.1 --port 5108
+Restart=on-failure
+RestartSec=5s
+TimeoutStopSec=20s
+UMask=0077
+
+NoNewPrivileges=true
+PrivateDevices=true
+PrivateTmp=true
+ProtectClock=true
+ProtectControlGroups=true
+ProtectHome=true
+ProtectHostname=true
+ProtectKernelLogs=true
+ProtectKernelModules=true
+ProtectKernelTunables=true
+ProtectSystem=strict
+ReadWritePaths=/srv/barfin-website/runtime
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+RestrictNamespaces=true
+RestrictRealtime=true
+SystemCallArchitectures=native
+
+[Install]
+WantedBy=multi-user.target
