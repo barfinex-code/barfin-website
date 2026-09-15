@@ -18,12 +18,7 @@ function Mark() {
 }
 
 function BrandName() {
-  return (
-    <span className="brand-name">
-      <strong>BARFIN</strong>
-      <small>NETWORK LIMITED</small>
-    </span>
-  );
+  return <strong className="brand-name">BARFIN NETWORK LIMITED</strong>;
 }
 
 export function Landing({ locale }: { locale: Locale }) {

@@ -43,9 +43,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 }
 
 .brand, .footer-brand { display: flex; align-items: center; gap: .85rem; }
-.brand-name { display: grid; gap: .2rem; font-family: var(--mono); line-height: 1; }
-.brand-name strong { font-size: .86rem; font-weight: 500; letter-spacing: .31em; }
-.brand-name small { color: #a3b1b5; font-size: .42rem; font-weight: 400; letter-spacing: .19em; }
+.brand-name { color: var(--text); font-family: var(--mono); font-size: .78rem; font-weight: 500; line-height: 1; letter-spacing: .22em; white-space: nowrap; }
 .brand-mark { width: 30px; height: 30px; display: grid; flex: 0 0 30px; place-items: center; border: 1px solid rgba(232,183,102,.58); border-radius: 50%; box-shadow: 0 0 24px rgba(232,183,102,.14); }
 .brand-mark img { width: 19px; height: 19px; filter: brightness(0) invert(1); opacity: .9; }
 
@@ -127,8 +125,8 @@ button, a { -webkit-tap-highlight-color: transparent; }
   .section-shell, .site-header { width: min(100% - 28px,1480px); }
   .site-header { height: 78px; grid-template-columns: 1fr auto; }
   .site-nav { display: none; }
-  .brand-name strong { font-size: .7rem; }
-  .brand-name small { font-size: .36rem; letter-spacing: .13em; }
+  .brand { gap: .6rem; }
+  .brand-name { font-size: .54rem; letter-spacing: .11em; }
   .language-switch { gap: 0; }
   .language-switch a { padding: .45rem .38rem; font-size: .54rem; }
   .hero { min-height: 790px; }
