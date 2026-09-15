@@ -2,6 +2,24 @@ import type { Metadata } from "next";
 
 export type Locale = "kk" | "ru" | "en";
 
+export type ContactCopy = {
+  eyebrow: string;
+  title: string;
+  body: string;
+  name: string;
+  namePlaceholder: string;
+  contact: string;
+  contactPlaceholder: string;
+  message: string;
+  messagePlaceholder: string;
+  action: string;
+  sending: string;
+  success: string;
+  error: string;
+  rateLimited: string;
+  response: string;
+};
+
 type Copy = {
   skip: string;
   nav: { services: string; method: string; company: string; contact: string };
@@ -34,13 +52,7 @@ type Copy = {
     body: string;
     facts: { value: string; label: string }[];
   };
-  contact: {
-    eyebrow: string;
-    title: string;
-    body: string;
-    action: string;
-    response: string;
-  };
+  contact: ContactCopy;
   footer: { descriptor: string; registration: string; location: string };
 };
 
@@ -118,7 +130,17 @@ export const content: Record<Locale, Copy> = {
       eyebrow: "04 · Байланыс",
       title: "Келесі өнімді бірге жасайық.",
       body: "Міндетіңізді қысқаша сипаттаңыз. Біз контекстті зерттеп, орынды келесі қадамды ұсынамыз.",
-      action: "info@barfin.org",
+      name: "Атыңыз",
+      namePlaceholder: "Атыңызды енгізіңіз",
+      contact: "Қалай байланысқан дұрыс",
+      contactPlaceholder: "Телефон, Telegram немесе басқа байланыс",
+      message: "Жоба туралы",
+      messagePlaceholder: "Міндет, мерзім және күтілетін нәтиже туралы қысқаша жазыңыз",
+      action: "Хабарлама жіберу",
+      sending: "Жіберілуде…",
+      success: "Хабарлама жіберілді. Жақын арада сізбен байланысамыз.",
+      error: "Хабарлама жіберілмеді. Сәл кейінірек қайталап көріңіз.",
+      rateLimited: "Сұраулар тым жиі жіберілуде. Бір минуттан кейін қайталап көріңіз.",
       response: "Жауап: 1–2 жұмыс күні",
     },
     footer: {
@@ -180,7 +202,17 @@ export const content: Record<Locale, Copy> = {
       eyebrow: "04 · Контакты",
       title: "Давайте создадим следующий продукт вместе.",
       body: "Коротко опишите задачу. Мы изучим контекст и предложим содержательный следующий шаг.",
-      action: "info@barfin.org",
+      name: "Ваше имя",
+      namePlaceholder: "Как к вам обращаться",
+      contact: "Как с вами связаться",
+      contactPlaceholder: "Телефон, Telegram или другой контакт",
+      message: "О проекте",
+      messagePlaceholder: "Коротко опишите задачу, сроки и ожидаемый результат",
+      action: "Отправить сообщение",
+      sending: "Отправляем…",
+      success: "Сообщение отправлено. Мы скоро свяжемся с вами.",
+      error: "Не удалось отправить сообщение. Попробуйте ещё раз позже.",
+      rateLimited: "Слишком много запросов. Попробуйте ещё раз через минуту.",
       response: "Ответим за 1–2 рабочих дня",
     },
     footer: { descriptor: "Software systems for meaningful progress.", registration: "БИН 221040900321", location: "Астана, Казахстан" },
@@ -238,7 +270,17 @@ export const content: Record<Locale, Copy> = {
       eyebrow: "04 · Contact",
       title: "Let’s build what comes next.",
       body: "Tell us briefly what you are working on. We will study the context and suggest a useful next step.",
-      action: "info@barfin.org",
+      name: "Your name",
+      namePlaceholder: "How should we address you?",
+      contact: "How to reach you",
+      contactPlaceholder: "Phone, Telegram, or another contact",
+      message: "About the project",
+      messagePlaceholder: "Briefly describe the challenge, timing, and expected outcome",
+      action: "Send message",
+      sending: "Sending…",
+      success: "Message sent. We will get back to you shortly.",
+      error: "We could not send your message. Please try again later.",
+      rateLimited: "Too many requests. Please try again in a minute.",
       response: "Response within 1–2 business days",
     },
     footer: { descriptor: "Software systems for meaningful progress.", registration: "BIN 221040900321", location: "Astana, Kazakhstan" },

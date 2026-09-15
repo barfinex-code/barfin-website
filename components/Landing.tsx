@@ -1,5 +1,7 @@
+import Image from "next/image";
 import type { Locale } from "../lib/content";
 import { content } from "../lib/content";
+import { ContactForm } from "./ContactForm";
 import { SystemCore } from "./SystemCore";
 
 const localeLinks: { locale: Locale; label: string; href: string }[] = [
@@ -9,7 +11,7 @@ const localeLinks: { locale: Locale; label: string; href: string }[] = [
 ];
 
 function Mark() {
-  return <span className="brand-mark" aria-hidden="true"><i /><i /></span>;
+  return <span className="brand-mark" aria-hidden="true"><Image src="/barfin-bear.svg" alt="" width={42} height={42} priority /></span>;
 }
 
 export function Landing({ locale }: { locale: Locale }) {
@@ -45,7 +47,7 @@ export function Landing({ locale }: { locale: Locale }) {
             <h1>{copy.hero.title}<br /><em>{copy.hero.titleAccent}</em></h1>
             <p className="hero-lede">{copy.hero.body}</p>
             <div className="hero-actions">
-              <a className="button button-primary" href="mailto:info@barfin.org?subject=Project%20inquiry%20%E2%80%94%20Barfin">{copy.hero.primary}<span>↗</span></a>
+              <a className="button button-primary" href="#contact">{copy.hero.primary}<span>↘</span></a>
               <a className="button button-ghost" href="#method">{copy.hero.secondary}<span>↓</span></a>
             </div>
             <dl className="telemetry">
@@ -108,6 +110,9 @@ export function Landing({ locale }: { locale: Locale }) {
             <blockquote>“{copy.company.quote}”</blockquote>
           </div>
           <div className="company-detail">
+            <div className="company-logo" aria-label="Barfin Network Limited">
+              <Image src="/barfinex-logo.svg" alt="Barfin Network Limited" width={164} height={42} />
+            </div>
             <p>{copy.company.body}</p>
             <dl className="facts">
               {copy.company.facts.map((fact) => <div key={fact.label}><dt>{fact.value}</dt><dd>{fact.label}</dd></div>)}
@@ -121,16 +126,15 @@ export function Landing({ locale }: { locale: Locale }) {
             <p className="eyebrow"><span>{copy.contact.eyebrow.split(" · ")[0]}</span>{copy.contact.eyebrow.split(" · ")[1]}</p>
             <h2>{copy.contact.title}</h2>
             <p>{copy.contact.body}</p>
-            <a className="email-link" href="mailto:info@barfin.org?subject=Project%20inquiry%20%E2%80%94%20Barfin">{copy.contact.action}<span>↗</span></a>
-            <small>{copy.contact.response}</small>
           </div>
+          <ContactForm locale={locale} copy={copy.contact} />
         </section>
       </main>
 
       <footer className="site-footer section-shell">
         <div className="footer-brand"><Mark /><strong>BARFIN</strong><span>{copy.footer.descriptor}</span></div>
         <div className="footer-meta"><span>Barfin Network Limited</span><span>{copy.footer.registration}</span><span>{copy.footer.location}</span></div>
-        <div className="footer-bottom"><span>© {new Date().getFullYear()} Barfin Network Limited</span><a href="mailto:info@barfin.org">info@barfin.org</a></div>
+        <div className="footer-bottom"><span>© {new Date().getFullYear()} Barfin Network Limited</span><a href="#contact">{copy.nav.contact}</a></div>
       </footer>
     </div>
   );

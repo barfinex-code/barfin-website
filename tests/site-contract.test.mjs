@@ -25,7 +25,9 @@ for (const [path, heading, lang] of [
     const html = await response.text();
     assert.match(html, new RegExp(heading));
     assert.match(html, /Barfin Network Limited/);
-    assert.match(html, /info@barfin\.org/);
+    assert.match(html, /name="contact"/);
+    assert.match(html, /name="message"/);
+    assert.doesNotMatch(html, /info@barfin\.org|mailto:/i);
     assert.match(html, new RegExp(`lang="${lang}"`));
     assert.doesNotMatch(html, /codex-preview|react-loading-skeleton|Your site is taking shape/i);
   });
