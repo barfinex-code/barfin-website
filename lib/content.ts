@@ -50,7 +50,7 @@ export const content: Record<Locale, Copy> = {
     hero: {
       eyebrow: "Астанада жасалған · Болашаққа арналған",
       title: "Біз мүмкін еместі жасаймыз.",
-      titleAccent: "Содан кейін оны жүйеге айналдырамыз.",
+      titleAccent: "Және оны жүйелі етеміз.",
       body: "Өзімізді дамытамыз. Өнімдерді дамытамыз. Адамзатты алға жылжытамыз.",
       action: "Әңгіме бастау",
       scroll: "Әрі қарай",
@@ -88,7 +88,7 @@ export const content: Record<Locale, Copy> = {
     hero: {
       eyebrow: "Создано в Астане · Для будущего",
       title: "Создаём невозможное.",
-      titleAccent: "А потом превращаем его в систему.",
+      titleAccent: "И превращаем в системное.",
       body: "Развиваемся сами. Развиваем продукты. Двигаем человечество вперёд.",
       action: "Начать разговор",
       scroll: "Дальше",
@@ -126,7 +126,7 @@ export const content: Record<Locale, Copy> = {
     hero: {
       eyebrow: "Made in Astana · Built for what comes next",
       title: "We create the impossible.",
-      titleAccent: "Then turn it into a system.",
+      titleAccent: "And make it systemic.",
       body: "We evolve ourselves. We evolve products. We move humanity forward.",
       action: "Start a conversation",
       scroll: "Explore",
