@@ -1,0 +1,87 @@
+name: Deploy production
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+    timeout-minutes: 20
+    env:
+      PROD_HOST: ${{ vars.PROD_HOST }}
+      PROD_PORT: ${{ vars.PROD_PORT }}
+      PROD_USER: ${{ vars.PROD_USER }}
+      PROD_SSH_PRIVATE_KEY: ${{ secrets.PROD_SSH_PRIVATE_KEY }}
+      PROD_SSH_KNOWN_HOSTS: ${{ secrets.PROD_SSH_KNOWN_HOSTS }}
+
+    steps:
+      - name: Check out the release
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.13.0
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Test
+        run: npm test
+
+      - name: Configure SSH
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          required=(PROD_HOST PROD_PORT PROD_USER PROD_SSH_PRIVATE_KEY PROD_SSH_KNOWN_HOSTS)
+          for name in "${required[@]}"; do
+            if [[ -z "${!name:-}" ]]; then
+              echo "Missing production configuration: $name" >&2
+              exit 1
+            fi
+          done
+
+          install -d -m 0700 ~/.ssh
+          printf '%s\n' "$PROD_SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
+          chmod 0600 ~/.ssh/id_ed25519
+          printf '%s\n' "$PROD_SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 0600 ~/.ssh/known_hosts
+
+      - name: Package release
+        shell: bash
+        run: git archive --format=tar.gz --output="barfin-website-${GITHUB_SHA}.tar.gz" "$GITHUB_SHA"
+
+      - name: Upload and activate release
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          ssh_target="${PROD_USER}@${PROD_HOST}"
+          ssh_options=(-p "$PROD_PORT" -o BatchMode=yes -o IdentitiesOnly=yes)
+          archive="barfin-website-${GITHUB_SHA}.tar.gz"
+          remote_archive="/tmp/${archive}"
+          remote_script="/tmp/barfin-deploy-${GITHUB_SHA}.sh"
+
+          scp -P "$PROD_PORT" -o BatchMode=yes -o IdentitiesOnly=yes \
+            "$archive" "deploy/timeweb/deploy-main.sh" "$ssh_target:/tmp/"
+          ssh "${ssh_options[@]}" "$ssh_target" \
+            "mv /tmp/deploy-main.sh '$remote_script' && sudo -n install -d -m 0750 /srv/barfin-website/runtime/incoming && sudo -n mv '$remote_archive' /srv/barfin-website/runtime/incoming/ && sudo -n bash '$remote_script' '$GITHUB_SHA'"
+
+      - name: Verify public routes
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          for route in / /ru /en; do
+            curl --fail --silent --show-error --max-time 15 \
+              "https://barfin.org${route}?release=${GITHUB_SHA}" >/dev/null
+          done

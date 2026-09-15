@@ -93,7 +93,10 @@ rollback() {
 ln -sfn "$RELEASE" "$CURRENT"
 systemctl daemon-reload
 systemctl enable "$SERVICE" >/dev/null
-systemctl restart "$SERVICE"
+if ! systemctl restart "$SERVICE"; then
+  rollback
+  exit 1
+fi
 
 healthy=0
 for _ in $(seq 1 25); do
