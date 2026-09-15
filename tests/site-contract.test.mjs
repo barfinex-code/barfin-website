@@ -14,9 +14,9 @@ async function render(path = "/") {
 }
 
 for (const [path, heading, lang] of [
-  ["/", "Идеяны сенімді", "kk"],
-  ["/ru", "Превращаем идеи", "ru"],
-  ["/en", "We turn ideas", "en"],
+  ["/", "Біз мүмкін еместі", "kk"],
+  ["/ru", "Создаём невозможное", "ru"],
+  ["/en", "We create the impossible", "en"],
 ]) {
   test(`renders ${lang} landing page`, async () => {
     const response = await render(path);

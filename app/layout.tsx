@@ -18,11 +18,10 @@ const plexMono = IBM_Plex_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://barfin.org"),
   title: {
-    default: "Barfin Network Limited — Бағдарламалық жасақтама әзірлеу",
+    default: "Barfin Network Limited — Болашақты жасайтын технологиялар",
     template: "%s · Barfin Network Limited",
   },
-  description:
-    "Barfin Network Limited жобалайтын және әзірлейтін сенімді веб, мобильді және серверлік бағдарламалық жүйелер.",
+  description: "Мүмкін емес идеяларды жұмыс істейтін цифрлық жүйелерге айналдырамыз.",
   applicationName: "Barfin Network Limited",
   creator: "Barfin Network Limited",
   publisher: "Barfin Network Limited",
@@ -37,6 +36,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
+    title: "Barfin Network Limited",
+    description: "Болашақ алдымен ғажайып сияқты көрінеді.",
     images: ["/og.png"],
   },
 };

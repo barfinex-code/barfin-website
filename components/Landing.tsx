@@ -2,7 +2,6 @@ import Image from "next/image";
 import type { Locale } from "../lib/content";
 import { content } from "../lib/content";
 import { ContactForm } from "./ContactForm";
-import { SystemCore } from "./SystemCore";
 
 const localeLinks: { locale: Locale; label: string; href: string }[] = [
   { locale: "kk", label: "ҚАЗ", href: "/" },
@@ -11,7 +10,20 @@ const localeLinks: { locale: Locale; label: string; href: string }[] = [
 ];
 
 function Mark() {
-  return <span className="brand-mark" aria-hidden="true"><Image src="/barfin-bear.svg" alt="" width={42} height={42} priority /></span>;
+  return (
+    <span className="brand-mark" aria-hidden="true">
+      <Image src="/barfin-bear.svg" alt="" width={42} height={42} priority />
+    </span>
+  );
+}
+
+function BrandName() {
+  return (
+    <span className="brand-name">
+      <strong>BARFIN</strong>
+      <small>NETWORK LIMITED</small>
+    </span>
+  );
 }
 
 export function Landing({ locale }: { locale: Locale }) {
@@ -24,14 +36,14 @@ export function Landing({ locale }: { locale: Locale }) {
       <header className="site-header">
         <a className="brand" href={locale === "kk" ? "/" : `/${locale}`} aria-label="Barfin Network Limited">
           <Mark />
-          <span>BARFIN</span>
+          <BrandName />
         </a>
-        <nav className="desktop-nav" aria-label="Primary navigation">
-          <a href="#services">{copy.nav.services}</a>
-          <a href="#method">{copy.nav.method}</a>
+
+        <nav className="site-nav" aria-label={copy.nav.label}>
           <a href="#company">{copy.nav.company}</a>
           <a href="#contact">{copy.nav.contact}</a>
         </nav>
+
         <div className="language-switch" aria-label="Language">
           {localeLinks.map((item) => (
             <a key={item.locale} href={item.href} aria-current={locale === item.locale ? "page" : undefined}>{item.label}</a>
@@ -40,90 +52,38 @@ export function Landing({ locale }: { locale: Locale }) {
       </header>
 
       <main id="main">
-        <section className="hero section-shell">
-          <div className="hero-grid" />
-          <div className="hero-copy">
+        <section className="hero">
+          <Image className="hero-image" src="/hero-architecture.jpg" alt={copy.hero.imageAlt} fill priority sizes="100vw" />
+          <div className="hero-shade" />
+          <div className="hero-copy section-shell">
             <p className="eyebrow"><span>00</span>{copy.hero.eyebrow}</p>
             <h1>{copy.hero.title}<br /><em>{copy.hero.titleAccent}</em></h1>
             <p className="hero-lede">{copy.hero.body}</p>
-            <div className="hero-actions">
-              <a className="button button-primary" href="#contact">{copy.hero.primary}<span>↘</span></a>
-              <a className="button button-ghost" href="#method">{copy.hero.secondary}<span>↓</span></a>
-            </div>
-            <dl className="telemetry">
-              {copy.hero.telemetry.map(([label, value]) => (
-                <div key={label}><dt>{label}</dt><dd>{value}</dd></div>
-              ))}
-            </dl>
+            <a className="button button-primary" href="#contact">{copy.hero.action}<span>↘</span></a>
           </div>
-          <div className="hero-visual">
-            <SystemCore label={copy.hero.systemLabel} live={copy.hero.live} />
-          </div>
-          <div className="scroll-note">SCROLL TO EXPLORE <span>↓</span></div>
-        </section>
-
-        <section className="services section-shell" id="services">
-          <div className="section-heading">
-            <p className="eyebrow"><span>{copy.services.eyebrow.split(" · ")[0]}</span>{copy.services.eyebrow.split(" · ")[1]}</p>
-            <h2>{copy.services.title}</h2>
-            <p>{copy.services.body}</p>
-          </div>
-          <div className="service-grid">
-            {copy.services.items.map((item) => (
-              <article className="service-card" key={item.number}>
-                <div className="service-number">{item.number}</div>
-                <div className="service-symbol" aria-hidden="true"><i /><i /><i /></div>
-                <h3>{item.title}</h3>
-                <p>{item.body}</p>
-                <ul>{item.tags.map((tag) => <li key={tag}>{tag}</li>)}</ul>
-              </article>
-            ))}
+          <div className="hero-foot section-shell" aria-hidden="true">
+            <span>51.13° N · 71.43° E</span>
+            <span>{copy.hero.scroll} ↓</span>
           </div>
         </section>
 
-        <section className="method section-shell" id="method">
-          <div className="method-visual" aria-hidden="true">
-            <div className="signal-map">
-              <span className="signal-line line-a" /><span className="signal-line line-b" /><span className="signal-line line-c" />
-              <i className="signal-node node-a" /><i className="signal-node node-b" /><i className="signal-node node-c" /><i className="signal-node node-d" />
-              <div className="signal-center"><span>BARFIN</span><small>SYSTEM MAP</small></div>
-            </div>
-          </div>
-          <div className="method-copy">
-            <p className="eyebrow"><span>{copy.method.eyebrow.split(" · ")[0]}</span>{copy.method.eyebrow.split(" · ")[1]}</p>
-            <h2>{copy.method.title}</h2>
-            <p className="method-lede">{copy.method.body}</p>
-            <ol className="steps">
-              {copy.method.steps.map((step) => (
-                <li key={step.number}>
-                  <span>{step.number}</span>
-                  <div><h3>{step.title}</h3><p>{step.body}</p></div>
-                </li>
-              ))}
-            </ol>
-          </div>
-        </section>
+        <section className="manifest section-shell" id="company">
+          <figure className="manifest-visual">
+            <Image src="/evolving-system.jpg" alt={copy.manifest.imageAlt} fill sizes="(max-width: 760px) 100vw, 48vw" />
+            <figcaption>BARFIN · FIELD NOTE 01</figcaption>
+          </figure>
 
-        <section className="company section-shell" id="company">
-          <div className="company-intro">
-            <p className="eyebrow"><span>{copy.company.eyebrow.split(" · ")[0]}</span>{copy.company.eyebrow.split(" · ")[1]}</p>
-            <blockquote>“{copy.company.quote}”</blockquote>
-          </div>
-          <div className="company-detail">
-            <div className="company-logo" aria-label="Barfin Network Limited">
-              <Image src="/barfinex-logo.svg" alt="Barfin Network Limited" width={164} height={42} />
-            </div>
-            <p>{copy.company.body}</p>
-            <dl className="facts">
-              {copy.company.facts.map((fact) => <div key={fact.label}><dt>{fact.value}</dt><dd>{fact.label}</dd></div>)}
-            </dl>
+          <div className="manifest-copy">
+            <p className="eyebrow"><span>01</span>{copy.manifest.eyebrow}</p>
+            <h2>{copy.manifest.title}</h2>
+            <p>{copy.manifest.body}</p>
+            <div className="manifest-note"><i />{copy.manifest.note}</div>
           </div>
         </section>
 
         <section className="contact section-shell" id="contact">
-          <div className="contact-orbit" aria-hidden="true"><i /><i /><i /></div>
-          <div className="contact-copy">
-            <p className="eyebrow"><span>{copy.contact.eyebrow.split(" · ")[0]}</span>{copy.contact.eyebrow.split(" · ")[1]}</p>
+          <div className="contact-heading">
+            <p className="eyebrow"><span>02</span>{copy.contact.eyebrow}</p>
             <h2>{copy.contact.title}</h2>
             <p>{copy.contact.body}</p>
           </div>
@@ -132,9 +92,13 @@ export function Landing({ locale }: { locale: Locale }) {
       </main>
 
       <footer className="site-footer section-shell">
-        <div className="footer-brand"><Mark /><strong>BARFIN</strong><span>{copy.footer.descriptor}</span></div>
-        <div className="footer-meta"><span>Barfin Network Limited</span><span>{copy.footer.registration}</span><span>{copy.footer.location}</span></div>
-        <div className="footer-bottom"><span>© {new Date().getFullYear()} Barfin Network Limited</span><a href="#contact">{copy.nav.contact}</a></div>
+        <div className="footer-brand"><Mark /><BrandName /></div>
+        <p>{copy.footer.descriptor}</p>
+        <div className="footer-meta">
+          <span>© {new Date().getFullYear()} Barfin Network Limited</span>
+          <span>{copy.footer.registration}</span>
+          <span>{copy.footer.location}</span>
+        </div>
       </footer>
     </div>
   );
