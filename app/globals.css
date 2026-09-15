@@ -62,9 +62,9 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .eyebrow { margin: 0; display: flex; align-items: center; gap: 1rem; color: #b1bec2; font-family: var(--mono); font-size: .64rem; line-height: 1.6; letter-spacing: .16em; text-transform: uppercase; }
 .eyebrow span { color: var(--gold); }
 .eyebrow span::after { width: 28px; height: 1px; margin-left: 1rem; display: inline-block; vertical-align: middle; content: ""; background: rgba(232,183,102,.42); }
-.hero h1 { max-width: 1040px; margin: 2rem 0 1.6rem; font-size: clamp(4.2rem,7.5vw,8.2rem); font-weight: 430; line-height: .94; letter-spacing: -.04em; }
+.hero h1 { max-width: 1040px; margin: 2rem 0 1.6rem; font-size: clamp(4.2rem,7.5vw,8.2rem); font-weight: 430; line-height: .94; letter-spacing: -.025em; }
 .hero h1 em { color: var(--gold-bright); font-style: normal; font-weight: 400; }
-.hero-lede { max-width: 580px; margin: 0 0 2.6rem; color: #b2c0c4; font-size: clamp(1rem,1.35vw,1.22rem); line-height: 1.75; }
+.hero-lede { max-width: 580px; margin: 0 0 2.6rem; color: #b2c0c4; font-size: clamp(1rem,1.35vw,1.22rem); line-height: 1.75; letter-spacing: .012em; }
 .button { width: fit-content; min-height: 54px; padding: 0 1.4rem; display: inline-flex; align-items: center; justify-content: center; gap: 2.5rem; border: 1px solid transparent; font-family: var(--mono); font-size: .64rem; letter-spacing: .14em; text-transform: uppercase; transition: transform 180ms ease,background 180ms ease,box-shadow 180ms ease; }
 .button span { font-size: .95rem; }
 .button-primary { color: #11161a; background: var(--gold-bright); box-shadow: 0 14px 42px rgba(232,183,102,.12); }
@@ -78,8 +78,8 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .manifest-visual:hover img { transform: scale(1.025); }
 .manifest-visual figcaption { position: absolute; z-index: 2; right: 20px; bottom: 18px; color: rgba(231,237,238,.55); font-family: var(--mono); font-size: .53rem; letter-spacing: .15em; }
 .manifest-copy { max-width: 760px; }
-.manifest h2, .contact h2 { margin: 2rem 0 1.8rem; font-size: clamp(3.1rem,5.6vw,6.8rem); font-weight: 430; line-height: 1; letter-spacing: -.035em; }
-.manifest-copy > p:not(.eyebrow), .contact-heading > p:not(.eyebrow) { max-width: 590px; margin: 0; color: var(--muted); font-size: clamp(1rem,1.4vw,1.22rem); line-height: 1.75; }
+.manifest h2, .contact h2 { margin: 2rem 0 1.8rem; font-size: clamp(3.1rem,5.6vw,6.8rem); font-weight: 430; line-height: 1; letter-spacing: -.018em; }
+.manifest-copy > p:not(.eyebrow), .contact-heading > p:not(.eyebrow) { max-width: 590px; margin: 0; color: var(--muted); font-size: clamp(1rem,1.4vw,1.22rem); line-height: 1.75; letter-spacing: .012em; }
 .manifest-note { margin-top: clamp(3.5rem,7vw,7rem); display: flex; align-items: center; gap: 1rem; color: var(--gold-bright); font-family: var(--mono); font-size: .67rem; letter-spacing: .13em; text-transform: uppercase; }
 .manifest-note i { width: 7px; height: 7px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 16px var(--cyan); animation: pulse 2.4s ease-in-out infinite; }
 
@@ -107,7 +107,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .form-status-success { color: #83d9c9; }
 
 .site-footer { padding-top: 4.5rem; padding-bottom: 2rem; border-top: 1px solid var(--line); }
-.site-footer > p { margin: 3rem 0; font-size: clamp(1.8rem,3vw,3.5rem); font-weight: 430; letter-spacing: -.02em; }
+.site-footer > p { margin: 3rem 0; font-size: clamp(1.8rem,3vw,3.5rem); font-weight: 430; letter-spacing: -.008em; }
 .footer-meta { padding-top: 1.4rem; display: flex; justify-content: space-between; gap: 1.5rem; color: #5e7278; border-top: 1px solid var(--line); font-family: var(--mono); font-size: .55rem; letter-spacing: .09em; text-transform: uppercase; }
 
 @keyframes heroBreath { to { transform: scale(1.045); } }
@@ -135,7 +135,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
   .hero-copy { padding-top: 130px; padding-bottom: 120px; justify-content: flex-end; }
   .eyebrow { font-size: .56rem; gap: .7rem; }
   .eyebrow span::after { width: 18px; margin-left: .65rem; }
-  .hero h1 { margin-top: 1.5rem; font-size: clamp(3.25rem,14.4vw,5rem); line-height: .95; }
+  .hero h1 { margin-top: 1.5rem; font-size: clamp(3rem,13vw,5rem); line-height: .95; }
   .hero-lede { margin-bottom: 2rem; font-size: .95rem; }
   .hero-foot { bottom: 20px; }
   .hero-foot span:first-child { display: none; }
