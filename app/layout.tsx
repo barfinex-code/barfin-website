@@ -1,19 +1,12 @@
 import type { Metadata, Viewport } from "next";
-import { IBM_Plex_Mono, Manrope } from "next/font/google";
+import "@fontsource-variable/manrope/wght.css";
+import "@fontsource/ibm-plex-mono/cyrillic-ext-400.css";
+import "@fontsource/ibm-plex-mono/cyrillic-ext-500.css";
+import "@fontsource/ibm-plex-mono/cyrillic-400.css";
+import "@fontsource/ibm-plex-mono/cyrillic-500.css";
+import "@fontsource/ibm-plex-mono/latin-400.css";
+import "@fontsource/ibm-plex-mono/latin-500.css";
 import "./globals.css";
-
-const manrope = Manrope({
-  variable: "--font-manrope",
-  subsets: ["cyrillic", "latin"],
-  display: "swap",
-});
-
-const plexMono = IBM_Plex_Mono({
-  variable: "--font-plex-mono",
-  subsets: ["cyrillic", "latin"],
-  weight: ["400", "500"],
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://barfin.org"),
@@ -56,9 +49,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="kk" suppressHydrationWarning>
-      <body className={`${manrope.variable} ${plexMono.variable}`}>
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
