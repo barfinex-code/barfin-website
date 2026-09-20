@@ -1,6 +1,9 @@
 import Image from "next/image";
 import type { Locale } from "../lib/content";
 import { content } from "../lib/content";
+import { overview } from "../lib/overview";
+import { serializeJsonLd, structuredDataFor } from "../lib/seo";
+import { CompanyOverview } from "./CompanyOverview";
 import { ContactForm } from "./ContactForm";
 
 const localeLinks: { locale: Locale; label: string; href: string }[] = [
@@ -26,6 +29,7 @@ export function Landing({ locale }: { locale: Locale }) {
 
   return (
     <div className="site" lang={locale}>
+      <script type="application/ld+json" id="barfin-structured-data" dangerouslySetInnerHTML={{ __html: serializeJsonLd(structuredDataFor(locale)) }} />
       <a className="skip-link" href="#main">{copy.skip}</a>
 
       <header className="site-header">
@@ -36,12 +40,13 @@ export function Landing({ locale }: { locale: Locale }) {
 
         <nav className="site-nav" aria-label={copy.nav.label}>
           <a href="#company">{copy.nav.company}</a>
+          <a href="#projects">{overview[locale].nav.projects}</a>
           <a href="#contact">{copy.nav.contact}</a>
         </nav>
 
         <div className="language-switch" aria-label="Language">
           {localeLinks.map((item) => (
-            <a key={item.locale} href={item.href} aria-current={locale === item.locale ? "page" : undefined}>{item.label}</a>
+            <a key={item.locale} href={item.href} hrefLang={item.locale} lang={item.locale} aria-current={locale === item.locale ? "page" : undefined}>{item.label}</a>
           ))}
         </div>
       </header>
@@ -76,9 +81,11 @@ export function Landing({ locale }: { locale: Locale }) {
           </div>
         </section>
 
+        <CompanyOverview locale={locale} />
+
         <section className="contact section-shell" id="contact">
           <div className="contact-heading">
-            <p className="eyebrow"><span>02</span>{copy.contact.eyebrow}</p>
+            <p className="eyebrow"><span>05</span>{copy.contact.eyebrow}</p>
             <h2>{copy.contact.title}</h2>
             <p>{copy.contact.body}</p>
           </div>
