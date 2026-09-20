@@ -13,17 +13,28 @@ async function render(path = "/") {
   );
 }
 
-for (const [path, heading, lang] of [
-  ["/", "Біз мүмкін еместі", "kk"],
-  ["/ru", "Создаём невозможное", "ru"],
-  ["/en", "We create the impossible", "en"],
+for (const [path, lang, title, titleAccent] of [
+  ["/", "kk", "Біз мүмкін еместі жасаймыз.", "Және оны жүйелі етеміз."],
+  ["/ru", "ru", "Создаём невозможное.", "И превращаем в системное."],
+  ["/en", "en", "We create the impossible.", "And make it systemic."],
 ]) {
-  test(`renders ${lang} landing page`, async () => {
+  test(`renders ${lang} landing page with the exact brand slogan`, async () => {
     const response = await render(path);
     assert.equal(response.status, 200);
     assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
     const html = await response.text();
-    assert.match(html, new RegExp(heading));
+
+    // Check the visible H1, not a matching string in serialized page data.
+    const headings = [...html.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/gi)];
+    assert.equal(headings.length, 1, "The page must have exactly one H1");
+    const heading = headings[0][1]
+      .replace(/<!--[\s\S]*?-->/g, "")
+      .replace(/<br\s*\/?>/gi, " ")
+      .replace(/<[^>]*>/g, "")
+      .replace(/\s+/g, " ")
+      .trim();
+    assert.equal(heading, `${title} ${titleAccent}`);
+
     assert.match(html, /Barfin Network Limited/);
     assert.match(html, /name="contact"/);
     assert.match(html, /name="message"/);
