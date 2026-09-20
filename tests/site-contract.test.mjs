@@ -39,12 +39,16 @@ function meta(html, key) {
   assert.equal(matches.length, 1, `Expected one ${key} meta tag`);
   return matches[0].content;
 }
+// The runtime may serialize an origin without a final slash. Compare absolute
+// URL identities, not equivalent root spellings; paths still match exactly.
+function absoluteUrl(value) { return new URL(value).href; }
 
 for (const entry of cases) {
   test(`${entry.lang}: approved slogans, meaningful visible content and links`, async () => {
     const response = await render(entry.path);
     assert.equal(response.status, 200);
     assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
+    assert.doesNotMatch(response.headers.get("x-robots-tag") ?? "", /noindex/i);
     const html = await response.text();
     const headings = [...html.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/gi)];
     assert.equal(headings.length, 1);
@@ -76,11 +80,11 @@ for (const entry of cases) {
     assert.equal(visibleText(titles[0][1]), `${entry.searchTitle} · Barfin Network Limited`);
     const canonical = new URL(entry.path, "https://barfin.org").href;
     const links = tags(html, "link");
-    assert.deepEqual(links.filter((tag) => tag.rel === "canonical").map((tag) => tag.href), [canonical]);
+    assert.deepEqual(links.filter((tag) => tag.rel === "canonical").map((tag) => absoluteUrl(tag.href)), [canonical]);
     for (const [lang, path] of [["kk", "/"], ["ru", "/ru"], ["en", "/en"], ["x-default", "/"]]) {
       const alternate = links.filter((tag) => tag.rel === "alternate" && tag.hreflang === lang);
       assert.equal(alternate.length, 1);
-      assert.equal(alternate[0].href, new URL(path, "https://barfin.org").href);
+      assert.equal(absoluteUrl(alternate[0].href), new URL(path, "https://barfin.org").href);
     }
     const description = meta(html, "description");
     assert.ok(description.includes("Barfinex") && description.includes("BaniBanani"));
@@ -89,7 +93,7 @@ for (const entry of cases) {
     assert.equal(meta(html, "twitter:description"), description);
     assert.equal(meta(html, "og:title"), visibleText(titles[0][1]));
     assert.equal(meta(html, "twitter:title"), visibleText(titles[0][1]));
-    assert.equal(meta(html, "og:url"), canonical);
+    assert.equal(absoluteUrl(meta(html, "og:url")), canonical);
     assert.equal(meta(html, "og:locale"), entry.ogLocale);
     assert.equal(meta(html, "og:type"), "website");
     assert.equal(meta(html, "twitter:card"), "summary_large_image");
