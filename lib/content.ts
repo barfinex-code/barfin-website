@@ -118,7 +118,7 @@ export const content: Record<Locale, Copy> = {
       rateLimited: "Слишком много запросов. Попробуйте через минуту.",
       response: "Обычно отвечаем за 1–2 рабочих дня",
     },
-    footer: { descriptor: "Приближаем то, что будет дальше.", registration: "БИН 221040900321", location: "Астана, Казахстан" },
+    footer: { descriptor: "Приближаем будущее.", registration: "БИН 221040900321", location: "Астана, Казахстан" },
   },
   en: {
     skip: "Skip to content",
@@ -156,7 +156,7 @@ export const content: Record<Locale, Copy> = {
       rateLimited: "Too many requests. Please try again in a minute.",
       response: "We usually reply within 1–2 business days",
     },
-    footer: { descriptor: "Bringing what comes next closer.", registration: "BIN 221040900321", location: "Astana, Kazakhstan" },
+    footer: { descriptor: "Bringing the future closer.", registration: "BIN 221040900321", location: "Astana, Kazakhstan" },
   },
 };
 
