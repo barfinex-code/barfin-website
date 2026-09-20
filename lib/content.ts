@@ -1,5 +1,3 @@
-import type { Metadata } from "next";
-
 export type Locale = "kk" | "ru" | "en";
 
 export type ContactCopy = {
@@ -160,24 +158,5 @@ export const content: Record<Locale, Copy> = {
   },
 };
 
-const pageMeta: Record<Locale, { title: string; description: string }> = {
-  kk: { title: "Болашақты жасайтын технологиялар", description: "Barfin Network Limited идеяларды нақты цифрлық жүйелерге айналдырады." },
-  ru: { title: "Технологии, создающие будущее", description: "Barfin Network Limited превращает невозможные идеи в работающие цифровые системы." },
-  en: { title: "Technology for what comes next", description: "Barfin Network Limited turns impossible ideas into working digital systems." },
-};
-
-export function metadataFor(locale: Locale, path: string): Metadata {
-  const meta = pageMeta[locale];
-  return {
-    title: meta.title,
-    description: meta.description,
-    alternates: { canonical: path, languages: { kk: "/", ru: "/ru", en: "/en", "x-default": "/" } },
-    openGraph: {
-      title: `${meta.title} · Barfin Network Limited`,
-      description: meta.description,
-      url: path,
-      locale: locale === "kk" ? "kk_KZ" : locale === "ru" ? "ru_RU" : "en_US",
-      images: [{ url: "/og.png", width: 1200, height: 630 }],
-    },
-  };
-}
+// Preserve the old import surface while keeping metadata in one source.
+export { metadataFor } from "./seo";

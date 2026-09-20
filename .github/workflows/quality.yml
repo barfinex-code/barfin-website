@@ -1,0 +1,75 @@
+name: Quality
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: quality-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: Build, SEO contracts and responsive layout
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
+        with:
+          node-version: '22.13.1'
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm test
+      - name: Install browser test tooling without changing the lockfile
+        run: |
+          npm install --no-save --package-lock=false playwright@1.62.1
+          npx playwright install --with-deps chromium
+      - name: Responsive browser checks
+        run: node scripts/check-layout.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: responsive-local
+          path: qa-screenshots/local
+          retention-days: 7
+          if-no-files-found: ignore
+
+  public:
+    name: Public SEO and browser verification
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: quality
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      BARFIN_BASE_URL: https://barfin.org
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
+        with:
+          node-version: '22.13.1'
+          cache: npm
+      - name: Wait for publication
+        run: node scripts/wait-for-production.mjs
+      - name: Test actual public HTML, metadata, structured data and crawling endpoints
+        run: node --test tests/site-contract.test.mjs
+      - run: npm ci
+      - name: Install browser test tooling
+        run: |
+          npm install --no-save --package-lock=false playwright@1.62.1
+          npx playwright install --with-deps chromium
+      - name: Check the published pages in Chromium
+        run: node scripts/check-layout.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: responsive-production
+          path: qa-screenshots/production
+          retention-days: 7
+          if-no-files-found: ignore
